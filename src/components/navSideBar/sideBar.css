@@ -1,0 +1,10 @@
+.side-nav-item {
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  color: black;
+}
+
+.side-nav-item:hover {
+  background-color: rgb(214, 255, 255);
+  border-radius: 4px;
+}
