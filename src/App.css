@@ -14,8 +14,20 @@ body {
   height: calc(100% - 60px);
 }
 
-.main-sidebar {
-  padding: 1.2rem 1rem;
-  background-color: white;
-  min-width: 250px;
+.main {
+  flex: 1;
+  padding: 20px;
+
+  transition: margin-left 0.3s ease;
+}
+
+/* Media Query for screens with width greater than 1024px */
+@media (min-width: 1024px) {
+  .main {
+    margin-left: 250px;
+  }
+
+  .hidden {
+    margin-left: 0;
+  }
 }

@@ -8,6 +8,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchUserInformation, setToken } from "./redux/slices/auth";
 import { Spinner } from "react-bootstrap";
 import AlertModal from "./components/modals/alertModal/alertModal";
+import Sidebar from "./components/navSideBar/sidebar";
+import { useState } from "react";
 
 function App() {
   const dispatch = useDispatch();
@@ -20,13 +22,19 @@ function App() {
   useEffect(() => {
     let token = localStorage.getItem("token");
 
-    if (token == null) {
+    if (token == "null" || token == null) {
       token = new URLSearchParams(window.location.search).get("access_token");
-      setToken(token);
+      dispatch(setToken(token));
     }
 
     dispatch(fetchUserInformation(token));
   }, [dispatch]);
+
+  const [isSidebarVisible, setSidebarVisible] = useState(true);
+
+  const toggleSidebar = () => {
+    setSidebarVisible((prev) => !prev);
+  };
 
   if (error) {
     return (
@@ -78,17 +86,9 @@ function App() {
         }}
         className="root-body"
       >
-        <aside
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            minHeight: "100%",
-          }}
-          className="main-sidebar"
-        >
-          <SidebarContent />
-        </aside>
-        <div className="main">
+        <Sidebar isVisible={isSidebarVisible} toggleSidebar={toggleSidebar} />
+
+        <div className={`main ${isSidebarVisible ? "" : "hidden"}`}>
           <Outlet />
         </div>
       </div>

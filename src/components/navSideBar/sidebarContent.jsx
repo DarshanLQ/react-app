@@ -12,7 +12,7 @@ const SidebarContent = () => {
   return (
     <>
       {Object.entries(routes).map(([k, v]) => (
-        <NavLink to={k} style={{ textDecoration: "none" }}>
+        <NavLink to={k} style={{ textDecoration: "none" }} key={k}>
           <div className="side-nav-item">{v}</div>
         </NavLink>
       ))}

@@ -62,3 +62,19 @@
     padding-right: 20px;
   }
 }
+
+.navbar > .container {
+  width: 100%;
+  max-width: 100% !important;
+  padding: 0rem 1.4rem;
+}
+
+.navbar-holders {
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+}
+
+.navbar-holders > .nav-item {
+  display: block !important;
+}

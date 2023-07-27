@@ -2,36 +2,60 @@ import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
+import "./header.css";
+import { useState } from "react";
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
+import ProfileMenu from "./profileMenu";
+import { NavLink } from "react-router-dom";
 
 function Header() {
+  const [showButton, setShowButton] = useState(false);
+
+  const handleWindowResize = () => {
+    setShowButton(window.innerWidth < 1024);
+  };
+  const userDetails = useSelector((state) => state.auth.userInfo);
+  const isSubscribed = useSelector((state) => state.auth.isSubscribed);
+
+  useEffect(() => {
+    // Add event listener to handle window resize
+    window.addEventListener("resize", handleWindowResize);
+
+    // Initial check for window width when the component mounts
+    handleWindowResize();
+
+    // Clean up the event listener when the component unmounts
+    return () => {
+      window.removeEventListener("resize", handleWindowResize);
+    };
+  }, []);
   return (
     <Navbar
-      expand="lg"
       className="header-pd"
       collapseOnSelect
       bg="white"
+      expand={true}
       style={{ minHeight: "60px" }}
     >
-      <Container>
-        <Navbar.Brand href="#home">React-Bootstrap</Navbar.Brand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="me-auto">
-            <Nav.Link href="#home">Home</Nav.Link>
-            <Nav.Link href="#link">Link</Nav.Link>
-            <NavDropdown title="Dropdown" id="basic-nav-dropdown">
-              <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.2">
-                Another action
-              </NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
-              <NavDropdown.Divider />
-              <NavDropdown.Item href="#action/3.4">
-                Separated link
-              </NavDropdown.Item>
-            </NavDropdown>
-          </Nav>
-        </Navbar.Collapse>
+      <Container fluid>
+        <Navbar.Brand lg={4}>
+          <NavLink to={"/"}>
+            <img
+              src="assets/img/LD_logo_banner_long_dark_bg.png"
+              alt=""
+              className="image-cl"
+            />
+          </NavLink>
+        </Navbar.Brand>
+        <div className="navbar-holders">
+          {showButton && (
+            <ProfileMenu
+              userDetails={userDetails}
+              isSubscribed={isSubscribed}
+            />
+          )}
+        </div>
       </Container>
     </Navbar>
   );
